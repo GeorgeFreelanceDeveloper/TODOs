@@ -1,0 +1,71 @@
+@startuml
+
+skin rose
+
+title TODOs app - Class Diagram
+
+class App {
+  -TaskManager taskManager
+  + void main()
+  - void displayMenu()
+  - void createTask()
+  - void updateTask()
+  - void deteleTask()
+  - void setDoneTask()
+  - void displayTasks()
+}
+
+enum Priority {
+  low
+  medium
+  high
+}
+
+class Task{
+  -UUID id
+  -String title
+  -String description
+  -Priority priority
+  -Boolean done
+  -Date createDate
+  +void Task()
+  +void Task(UUID id, String title, ... , Date createDate)
+  +void setId(UUID id)
+  +UUID getId()
+  +void setTitle(String title)
+  +String getTtile()
+  +void setDescription(String description)
+  +String getDescpription()
+  +void setPriority(Priority priority)
+  +Priority getPriority()
+  +void setDone(Boolean done)
+  +Boolean isDone()
+  +void setDate(Date createDate)
+  +Date getDate()
+}
+
+class TaskManager{
+  -TaskRepository taskRepository
+  -Map<String, List<Task>> tasksMap
+  +void TaskManager() //load tasksMap
+  +void create(Task task, String type)
+  +void update(Task task)
+  +Boolean delete(UUID id)
+  +List<Task> getAll()
+  +void saveTasks()
+  +Boolean setDone(UUID id)
+  +List<Task> getBy(String type)
+  +List<Task> getBy(Priority priority, String type)
+  +List<Task> getBy(Boolean done, String type)
+  +List<Task> getOlderTban(Date date, String type)
+  
+}
+
+class TaskRepository{
+  +Map<String,List<Task>> load()
+  +void save(Map<String, List<Task>> task)
+}
+
+App *-- TaskManager: contains
+TaskManager *-- TaskRepository : contains
+@enduml
