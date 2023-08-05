@@ -1,4 +1,11 @@
 # TODOs
+<!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
+[![All Contributors](https://img.shields.io/badge/all_contributors-2-orange.svg?style=flat-square)](#contributors-)
+<!-- ALL-CONTRIBUTORS-BADGE:END -->
+
+[![Build Status](https://img.shields.io/badge/java-17-blue)](https://www.python.org/downloads/)
+![contributions welcome](https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat)
+
 An application that allows users to create and manage a to-do list.
 
 ## Task
@@ -18,9 +25,21 @@ Allow users to create and manage to-do lists (eg personal, work, school).
 
 When creating a project, you can try creating classes for representing tasks, managing collections, working with inputs and outputs, and other basic Java concepts. You can also use OOP principles as I mentioned earlier and implement classes like Task to represent a single task and TaskManager to manage a list of tasks.
 
-## Class diagram
+## Architecture
+![App class diagram](docs/AppClassDiagram.svg)
 
 ## How to run
 ```bash
 mvn compile exec:java
 ```
+
+## Contributors
+<!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
+<!-- prettier-ignore-start -->
+<!-- markdownlint-disable -->
+<table>
+  <tr>
+     <td align="center"><a href="https://github.com/GeorgeQuantAnalyst"><img src="https://avatars.githubusercontent.com/u/112611533?v=4" width="100px;" alt=""/><br /><sub><b>GeorgeQuantAnalyst</b></sub></a><br /><a href="https://github.com/GeorgeQuantAnalyst" title="Ideas">🤔</a></td>
+    <td align="center"><a href="https://github.com/LucyQuantAnalyst"><img src="https://avatars.githubusercontent.com/u/115091833?v=4" width="100px;" alt=""/><br /><sub><b>LucyQuantAnalyst</b></sub></a><br /><a href="https://github.com/LucyQuantAnalyst" title="Code">💻</a></td>
+  </tr>
+</table>
