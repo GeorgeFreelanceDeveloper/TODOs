@@ -28,8 +28,8 @@ class Task{
   -Priority priority
   -Boolean done
   -Date createDate
-  +void Task()
-  +void Task(UUID id, String title, ... , Date createDate)
+  +Task()
+  +Task(UUID id, String title, ... , Date createDate)
   +void setId(UUID id)
   +UUID getId()
   +void setTitle(String title)
@@ -47,7 +47,7 @@ class Task{
 class TaskManager{
   -TaskRepository taskRepository
   -Map<String, List<Task>> tasksMap
-  +void TaskManager() //load tasksMap
+  +TaskManager() //load tasksMap
   +void create(Task task, String type)
   +void update(Task task)
   +Boolean delete(UUID id)
