@@ -8,6 +8,10 @@ public class TaskManagerTest extends TestCase {
         super.setUp();
     }
 
+    public void testCreateTask(){
+
+    }
+
     public void tearDown() throws Exception {
     }
 }
