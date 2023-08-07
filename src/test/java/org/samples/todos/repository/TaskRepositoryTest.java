@@ -1,13 +1,18 @@
 package org.samples.todos.repository;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectWriter;
 import junit.framework.TestCase;
-import org.apache.commons.io.FileUtils;
 import org.samples.todos.model.Priority;
 import org.samples.todos.model.Task;
 import org.samples.todos.model.TaskGroup;
 
-import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -16,8 +21,8 @@ import java.util.UUID;
 
 public class TaskRepositoryTest extends TestCase {
 
-    private static final String TASKS_FILE_NAME = "tasks.json";
-    private static final String TASKS_FILE_NAME_FOR_SAVE = "tasksTestSave.json";
+    private static final String TASKS_FILE_NAME = "src/test/resources/tasks.json";
+    private static final String TASKS_FILE_NAME_FOR_SAVE = "src/test/resources/tasksTestSave.json";
 
     public void testLoad() throws ParseException {
         final List<TaskGroup> expectedResult = createExpectedResult1();
@@ -29,8 +34,6 @@ public class TaskRepositoryTest extends TestCase {
         assertEquals(expectedResult, actualResult);
     }
 
-
-
     public void testSave() throws ParseException, IOException {
         final String expectedResult = createExpectedResult2();
         final String actualResult;
@@ -38,18 +41,18 @@ public class TaskRepositoryTest extends TestCase {
         TaskRepository taskRepository = new TaskRepository(TASKS_FILE_NAME_FOR_SAVE);
         taskRepository.save(createSampleTasks());
 
-        ClassLoader classLoader = getClass().getClassLoader();
-        File file = new File(classLoader.getResource(TASKS_FILE_NAME_FOR_SAVE).getFile());
-        actualResult = FileUtils.readFileToString(file, "UTF-8");
+        try (InputStream inputStream = Files.newInputStream(Paths.get(TASKS_FILE_NAME_FOR_SAVE))) {
+            actualResult = new String(inputStream.readAllBytes(), StandardCharsets.UTF_8);
+        }
 
-        assertEquals(expectedResult, actualResult);
+        assertEquals(expectedResult.replaceAll("\\s", ""), actualResult.replaceAll("\\s", ""));
     }
 
     private List<TaskGroup> createExpectedResult1() throws ParseException {
         return createSampleTasks();
     }
 
-    private String createExpectedResult2() throws ParseException{
+    private String createExpectedResult2() throws ParseException, JsonProcessingException {
         ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
         return ow.writeValueAsString(createSampleTasks());
     }

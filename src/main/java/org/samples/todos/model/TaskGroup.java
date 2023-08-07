@@ -8,6 +8,8 @@ public class TaskGroup {
     private String name;
     private List<Task> tasks;
 
+    public TaskGroup(){}
+
     public TaskGroup(String name, List<Task> tasks) {
         this.name = name;
         this.tasks = tasks;
