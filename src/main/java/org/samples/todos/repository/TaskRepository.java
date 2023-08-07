@@ -1,21 +1,23 @@
 package org.samples.todos.repository;
 
-import org.samples.todos.model.Task;
+import org.samples.todos.model.TaskGroup;
 
 import java.util.List;
-import java.util.Map;
 
 public class TaskRepository {
 
-    public Map<String, List<Task>> load(){
-        Map<String, List<Task>> tasksMap = null;
+    public List<TaskGroup> load() {
+        List<TaskGroup> taskGroups = null;
 
         //TODO: @Lucka please implement me
+        // Example: use jackson library https://www.baeldung.com/jackson-object-mapper-tutorial
 
-        return tasksMap;
+        return taskGroups;
     }
 
-    public void save(Map<String, List<Task>> tasksMap){
+    public void save(List<TaskGroup> taskGroups) {
         //TODO: @Lucka please implement me
+        // Example: use jackson library https://www.baeldung.com/jackson-object-mapper-tutorial
+
     }
 }
