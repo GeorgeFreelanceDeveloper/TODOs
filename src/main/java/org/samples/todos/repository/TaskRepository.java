@@ -12,35 +12,34 @@ import java.util.List;
 
 public class TaskRepository {
 
-    private static String TASKS_FILE_NAME = "src/main/resources/tasks.json";
+    private final String taskFileName;
+    private final ObjectMapper mapper;
 
-    public TaskRepository(String TASKS_FILE_NAME) {
-        TaskRepository.TASKS_FILE_NAME = TASKS_FILE_NAME;
+    public TaskRepository(String taskFileName, ObjectMapper mapper) {
+        this.taskFileName = taskFileName;
+        this.mapper = mapper;
     }
 
     public List<TaskGroup> load() {
         List<TaskGroup> taskGroups =  new ArrayList<>();
 
-        ObjectMapper mapper = new ObjectMapper();
-
         try {
-            taskGroups = mapper.readValue(Paths.get(TASKS_FILE_NAME).toFile(), new TypeReference<List<TaskGroup>>() {
+            taskGroups = mapper.readValue(Paths.get(taskFileName).toFile(), new TypeReference<>() {
             });
         } catch (IOException e) {
-                e.printStackTrace();
+            System.err.printf(String.format("Failed to load tasks from file: %s%n", taskFileName));
+            e.printStackTrace();
         }
 
         return taskGroups;
     }
 
     public void save(List<TaskGroup> taskGroups) {
-        ObjectMapper objectMapper = new ObjectMapper();
-
         try {
-            objectMapper.writeValue(new File(TASKS_FILE_NAME), taskGroups);
+            mapper.writeValue(new File(taskFileName), taskGroups);
         } catch (IOException e) {
+            System.err.printf(String.format("Failed to save tasks to file: %s", taskFileName));
             e.printStackTrace();
         }
-
     }
 }

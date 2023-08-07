@@ -8,6 +8,7 @@ import org.samples.todos.model.Priority;
 import org.samples.todos.model.Task;
 import org.samples.todos.model.TaskGroup;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
@@ -24,11 +25,17 @@ public class TaskRepositoryTest extends TestCase {
     private static final String TASKS_FILE_NAME = "src/test/resources/tasks.json";
     private static final String TASKS_FILE_NAME_FOR_SAVE = "src/test/resources/tasksTestSave.json";
 
+    private final ObjectMapper mapper;
+
+    public TaskRepositoryTest(){
+        this.mapper = new ObjectMapper();
+    }
+
     public void testLoad() throws ParseException {
         final List<TaskGroup> expectedResult = createExpectedResult1();
         final List<TaskGroup> actualResult;
 
-        TaskRepository taskRepository = new TaskRepository(TASKS_FILE_NAME);
+        TaskRepository taskRepository = new TaskRepository(TASKS_FILE_NAME, mapper);
         actualResult = taskRepository.load();
 
         assertEquals(expectedResult, actualResult);
@@ -38,7 +45,7 @@ public class TaskRepositoryTest extends TestCase {
         final String expectedResult = createExpectedResult2();
         final String actualResult;
 
-        TaskRepository taskRepository = new TaskRepository(TASKS_FILE_NAME_FOR_SAVE);
+        TaskRepository taskRepository = new TaskRepository(TASKS_FILE_NAME_FOR_SAVE, mapper);
         taskRepository.save(createSampleTasks());
 
         try (InputStream inputStream = Files.newInputStream(Paths.get(TASKS_FILE_NAME_FOR_SAVE))) {
@@ -46,6 +53,7 @@ public class TaskRepositoryTest extends TestCase {
         }
 
         assertEquals(expectedResult.replaceAll("\\s", ""), actualResult.replaceAll("\\s", ""));
+        new File(TASKS_FILE_NAME_FOR_SAVE).delete();
     }
 
     private List<TaskGroup> createExpectedResult1() throws ParseException {
