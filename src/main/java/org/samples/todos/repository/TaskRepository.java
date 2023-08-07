@@ -8,11 +8,11 @@ import java.util.Map;
 public class TaskRepository {
 
     public Map<String, List<Task>> load(){
-        Map<String, List<Task>> result = null;
+        Map<String, List<Task>> tasksMap = null;
 
         //TODO: @Lucka please implement me
 
-        return result;
+        return tasksMap;
     }
 
     public void save(Map<String, List<Task>> tasksMap){
