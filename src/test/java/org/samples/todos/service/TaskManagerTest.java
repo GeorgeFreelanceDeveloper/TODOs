@@ -10,6 +10,7 @@ import org.samples.todos.repository.TaskRepository;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -95,18 +96,47 @@ public class TaskManagerTest extends TestCase {
     }
 
     public void testGetByGroupNameAndPriority() throws ParseException {
+        List<Task> expectedTasks = taskManager.getBy("Personal", Priority.LOW);
+
         List<Task> personalTasks = createSampleTasks().get(0).getTasks();
-        //TODO: @Lucka implement me please
+        List<Task> lowPriorityTasks = new ArrayList<>();
 
+        for (Task task : personalTasks) {
+            if (task.getPriority() == Priority.LOW) {
+                lowPriorityTasks.add(task);
+            }
+        }
+        assertEquals(lowPriorityTasks, expectedTasks);
     }
 
-    public void testGetByGroupNameAndDone() {
-        //TODO: @Lucka implement me please
+    public void testGetByGroupNameAndDone() throws ParseException {
+        List<Task> expectedTasks = taskManager.getBy("Personal", true);
+
+        List<Task> personalTasks = createSampleTasks().get(0).getTasks();
+        List<Task> doneTasks = new ArrayList<>();
+
+        for (Task task : personalTasks) {
+            if (task.isDone()) {
+                doneTasks.add(task);
+            }
+        }
+        assertEquals(doneTasks, expectedTasks);
     }
 
-    public void testGetByGroupNameAndOlderThan(){
-        //TODO: @Lucka implement me please
+    public void testGetByGroupNameAndOlderThan() throws ParseException {
+        Date olderThanDate = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'").parse("2023-08-03T09:00:00Z");
 
+        List<Task> expectedTasks = taskManager.getBy("Personal", olderThanDate);
+
+        List<Task> personalTasks = createSampleTasks().get(0).getTasks();
+        List<Task> taskOlderThanDate = new ArrayList<>();
+
+        for (Task task : personalTasks) {
+            if (task.getCreateDate().before(olderThanDate)) {
+                taskOlderThanDate.add(task);
+            }
+        }
+        assertEquals(taskOlderThanDate, expectedTasks);
     }
 
     private List<TaskGroup> createSampleTasks() throws ParseException {
