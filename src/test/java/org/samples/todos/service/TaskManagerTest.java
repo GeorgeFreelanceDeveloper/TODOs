@@ -23,9 +23,10 @@ public class TaskManagerTest extends TestCase {
     @Override
     protected void setUp() throws ParseException {
         taskRepository = Mockito.mock(TaskRepository.class);
+        Mockito.when(taskRepository.load()).thenReturn(createSampleTasks());
+
         taskManager = new TaskManager(taskRepository);
 
-        Mockito.when(taskRepository.load()).thenReturn(createSampleTasks());
     }
 
     public void testCreateTask() throws ParseException {
@@ -109,13 +110,13 @@ public class TaskManagerTest extends TestCase {
         task2.setDone(false);
         task2.setCreateDate(new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'").parse("2023-08-02T16:15:00Z"));
 
-        personalGroup.setTasks(List.of(task1, task2));
+        personalGroup.setTasks(new ArrayList<>(List.of(task1, task2)));
 
         // Druhá TaskGroup
         TaskGroup workGroup = new TaskGroup();
         workGroup.setName("Work");
 
-        workGroup.setTasks(List.of(task1, task2));
+        workGroup.setTasks(new ArrayList<>(List.of(task1, task2)));
 
         taskGroups.add(personalGroup);
         taskGroups.add(workGroup);
