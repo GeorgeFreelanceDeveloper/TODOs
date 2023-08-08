@@ -69,21 +69,43 @@ public class TaskManagerTest extends TestCase {
     }
 
     public void testSetDone() {
+        UUID taskId = UUID.fromString("c5e128d1-24bf-4a4b-974d-72cbba71f9d3");
+
+        taskManager.setDone(taskId);
+        List<TaskGroup> tasks = taskManager.getAll();
+
+        Task task = tasks
+                .stream()
+                .flatMap(taskGroup -> taskGroup.getTasks().stream())
+                .filter(x-> x.getId().equals(taskId))
+                .findFirst().get();
+
+        assertEquals(taskId, task.getId());
+        assertTrue(task.isDone());
     }
 
-    public void testGetAll() {
+    public void testGetAll() throws ParseException {
+        assertEquals(createSampleTasks(),taskManager.getAll());
     }
 
-    public void testGetByGroupName() {
+    public void testGetByGroupName() throws ParseException {
+        List<Task> expectedResult = createSampleTasks().get(0).getTasks();
+        List<Task> actualResult = taskManager.getBy("Personal");
+        assertEquals(expectedResult, actualResult);
     }
 
-    public void testGetByGroupNameAndPriority() {
+    public void testGetByGroupNameAndPriority() throws ParseException {
+        List<Task> personalTasks = createSampleTasks().get(0).getTasks();
+        //TODO: @Lucka implement me please
+
     }
 
     public void testGetByGroupNameAndDone() {
+        //TODO: @Lucka implement me please
     }
 
     public void testGetByGroupNameAndOlderThan(){
+        //TODO: @Lucka implement me please
 
     }
 
