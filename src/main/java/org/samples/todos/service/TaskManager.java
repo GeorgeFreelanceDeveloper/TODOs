@@ -30,7 +30,6 @@ public class TaskManager {
                 }
             }
         }
-
         return false;
     }
 
@@ -47,7 +46,6 @@ public class TaskManager {
                 }
             }
         }
-
         return false;
     }
 
