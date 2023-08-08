@@ -19,7 +19,7 @@ public class TaskManager {
         this.taskGroups = taskRepository.load();
     }
 
-    public boolean createTask(Task task) {
+    public boolean createTask(Task task, String groupName) {
         //TODO: Lucka implement me please
         return false;
     }
