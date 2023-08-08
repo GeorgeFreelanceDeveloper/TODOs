@@ -141,10 +141,7 @@ public class TaskManager {
         return tasks;
     }
 
-
-    @Override
-    protected void finalize() throws Throwable {
-        super.finalize();
+    public void saveTasksToFile() {
         taskRepository.save(taskGroups);
     }
 }
