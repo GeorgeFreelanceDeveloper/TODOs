@@ -18,17 +18,20 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.TimeZone;
 import java.util.UUID;
 
 public class TaskRepositoryTest extends TestCase {
 
     private static final String TASKS_FILE_NAME = "src/test/resources/tasks.json";
     private static final String TASKS_FILE_NAME_FOR_SAVE = "src/test/resources/tasksTestSave.json";
-
     private final ObjectMapper mapper;
+
+    private SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
 
     public TaskRepositoryTest(){
         this.mapper = new ObjectMapper();
+        sdf.setTimeZone(TimeZone.getTimeZone("Europe/Prague"));
     }
 
     public void testLoad() throws ParseException {
@@ -78,7 +81,7 @@ public class TaskRepositoryTest extends TestCase {
         task1.setDescription("Description for Task 1");
         task1.setPriority(Priority.LOW);
         task1.setDone(true);
-        task1.setCreateDate(new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'").parse("2023-08-01T10:00:00Z"));
+        task1.setCreateDate(sdf.parse("2023-08-01T10:00:00Z"));
 
         Task task2 = new Task();
         task2.setId(UUID.fromString("f327f935-89c9-43b2-9f18-87ac967035a6"));
@@ -86,7 +89,7 @@ public class TaskRepositoryTest extends TestCase {
         task2.setDescription("Description for Task 2");
         task2.setPriority(Priority.HIGH);
         task2.setDone(false);
-        task2.setCreateDate(new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'").parse("2023-08-02T16:15:00Z"));
+        task2.setCreateDate(sdf.parse("2023-08-02T16:15:00Z"));
 
         personalGroup.setTasks(List.of(task1, task2));
 
