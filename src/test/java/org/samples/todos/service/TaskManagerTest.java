@@ -9,10 +9,7 @@ import org.samples.todos.repository.TaskRepository;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class TaskManagerTest extends TestCase {
@@ -21,11 +18,14 @@ public class TaskManagerTest extends TestCase {
 
     private TaskRepository taskRepository;
 
+    private SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
+
+
     @Override
     protected void setUp() throws ParseException {
+        sdf.setTimeZone(TimeZone.getTimeZone("Europe/Prague"));
         taskRepository = Mockito.mock(TaskRepository.class);
         Mockito.when(taskRepository.load()).thenReturn(createSampleTasks());
-
         taskManager = new TaskManager(taskRepository);
 
     }
@@ -152,7 +152,7 @@ public class TaskManagerTest extends TestCase {
         task1.setDescription("Description for Task 1");
         task1.setPriority(Priority.LOW);
         task1.setDone(true);
-        task1.setCreateDate(new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'").parse("2023-08-01T10:00:00Z"));
+        task1.setCreateDate(sdf.parse("2023-08-01T10:00:00Z"));
 
         Task task2 = new Task();
         task2.setId(UUID.fromString("f327f935-89c9-43b2-9f18-87ac967035a6"));
@@ -160,7 +160,7 @@ public class TaskManagerTest extends TestCase {
         task2.setDescription("Description for Task 2");
         task2.setPriority(Priority.HIGH);
         task2.setDone(false);
-        task2.setCreateDate(new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'").parse("2023-08-02T16:15:00Z"));
+        task2.setCreateDate(sdf.parse("2023-08-02T16:15:00Z"));
 
         personalGroup.setTasks(new ArrayList<>(List.of(task1, task2)));
 
@@ -183,7 +183,7 @@ public class TaskManagerTest extends TestCase {
         task.setDescription("Description for Sample Task");
         task.setPriority(Priority.LOW);
         task.setDone(true);
-        task.setCreateDate(new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'").parse("2023-08-01T10:00:00Z"));
+        task.setCreateDate(sdf.parse("2023-08-01T10:00:00Z"));
         return task;
     }
 
