@@ -96,47 +96,47 @@ public class TaskManagerTest extends TestCase {
     }
 
     public void testGetByGroupNameAndPriority() throws ParseException {
-        List<Task> expectedTasks = taskManager.getBy("Personal", Priority.LOW);
+        List<Task> actualResult = taskManager.getBy("Personal", Priority.LOW);
 
         List<Task> personalTasks = createSampleTasks().get(0).getTasks();
-        List<Task> lowPriorityTasks = new ArrayList<>();
+        List<Task> expectedResult = new ArrayList<>();
 
         for (Task task : personalTasks) {
             if (task.getPriority() == Priority.LOW) {
-                lowPriorityTasks.add(task);
+                expectedResult.add(task);
             }
         }
-        assertEquals(lowPriorityTasks, expectedTasks);
+        assertEquals(actualResult, expectedResult);
     }
 
     public void testGetByGroupNameAndDone() throws ParseException {
-        List<Task> expectedTasks = taskManager.getBy("Personal", true);
+        List<Task> actualResult = taskManager.getBy("Personal", true);
 
         List<Task> personalTasks = createSampleTasks().get(0).getTasks();
-        List<Task> doneTasks = new ArrayList<>();
+        List<Task> expectedResult = new ArrayList<>();
 
         for (Task task : personalTasks) {
             if (task.isDone()) {
-                doneTasks.add(task);
+                expectedResult.add(task);
             }
         }
-        assertEquals(doneTasks, expectedTasks);
+        assertEquals(actualResult, expectedResult);
     }
 
     public void testGetByGroupNameAndOlderThan() throws ParseException {
         Date olderThanDate = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'").parse("2023-08-03T09:00:00Z");
 
-        List<Task> expectedTasks = taskManager.getBy("Personal", olderThanDate);
+        List<Task> actualResult = taskManager.getBy("Personal", olderThanDate);
 
         List<Task> personalTasks = createSampleTasks().get(0).getTasks();
-        List<Task> taskOlderThanDate = new ArrayList<>();
+        List<Task> expectedResult = new ArrayList<>();
 
         for (Task task : personalTasks) {
             if (task.getCreateDate().before(olderThanDate)) {
-                taskOlderThanDate.add(task);
+                expectedResult.add(task);
             }
         }
-        assertEquals(taskOlderThanDate, expectedTasks);
+        assertEquals(actualResult, expectedResult);
     }
 
     private List<TaskGroup> createSampleTasks() throws ParseException {
