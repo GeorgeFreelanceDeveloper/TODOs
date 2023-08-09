@@ -7,6 +7,8 @@ import org.samples.todos.model.TaskGroup;
 import org.samples.todos.repository.TaskRepository;
 import org.samples.todos.service.TaskManager;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Scanner;
@@ -27,39 +29,36 @@ public class TodosApplication {
         scanner = new Scanner(System.in);
     }
 
-    public void run() {
+    public void run() throws ParseException {
         while (true) {
             System.out.println("------ TODOS MENU ------");
             System.out.println("1. List of all tasks");
             System.out.println("2. Create task");
             System.out.println("3. Update task");
             System.out.println("4. Delete task");
-            System.out.println("5. Exit");
+            System.out.println("5. Set done to task");
+            System.out.println("6. Get tasks by group name");
+            System.out.println("7. Get tasks by group name and priority");
+            System.out.println("8. Get tasks by group name and state of done");
+            System.out.println("9. Get tasks by group name and older than date");
+            System.out.println("10. Exit");
 
             System.out.print("Select an option:");
             int choice = scanner.nextInt();
             scanner.nextLine();  // To consume the rest of the line after reading the number
 
             switch (choice) {
-                case 1:
-                    displayAllTasks();
-                    break;
-                case 2:
-                    createTask();
-                    break;
-                case 3:
-                    updateTask();
-                    break;
-                case 4:
-                    deleteTask();
-                    break;
-                case 5:
-                    taskManager.saveTasksToFile();
-                    System.out.println("Exit app. Thank you!");
-                    System.exit(0);
-                    break;
-                default:
-                    System.out.println("Invalid choice. Select again.");
+                case 1 -> displayAllTasks();
+                case 2 -> createTask();
+                case 3 -> updateTask();
+                case 4 -> deleteTask();
+                case 5 -> setDone();
+                case 6 -> getTasksByGroupName();
+                case 7 -> getTasksByGroupNameAndPriority();
+                case 8 -> getTasksByGroupNameAndDone();
+                case 9 -> getTasksByGroupNameAndDate();
+                case 10 -> exit();
+                default -> System.out.println("Invalid choice. Select again.");
             }
         }
     }
@@ -93,6 +92,7 @@ public class TodosApplication {
                 Priority.valueOf(priority.toUpperCase()),
                 false,
                 new Date());
+        System.out.println(task);
         boolean result = taskManager.createTask(task, group);
         if (result) {
             System.out.println("Successful create task");
@@ -126,7 +126,7 @@ public class TodosApplication {
     }
 
     private void deleteTask() {
-        System.out.print("ID task for delete: ");
+        System.out.print("Write ID of task for delete: ");
         UUID deleteTaskId = UUID.fromString(scanner.nextLine());
         boolean result = taskManager.deleteTask(deleteTaskId);
         if (result) {
@@ -136,7 +136,80 @@ public class TodosApplication {
         }
     }
 
-    public static void main(String[] args) {
+    private void setDone() {
+        System.out.print("Write ID of task for setting task to done: ");
+        UUID setDoneToTask = UUID.fromString(scanner.nextLine());
+        boolean result = taskManager.setDone(setDoneToTask);
+        if (result) {
+            System.out.println("Successful set done to task");
+        } else {
+            System.out.println("Failed set done to task");
+        }
+    }
+
+    private void getTasksByGroupName() {
+        System.out.print("Write group name of task you want to filter by: ");
+        String groupName = scanner.nextLine();
+        List<Task> tasksByGroupName = taskManager.getBy(groupName);
+        if (tasksByGroupName != null) {
+            System.out.println(tasksByGroupName);
+        } else {
+            System.out.println("Failed to load tasks by group name.");
+        }
+    }
+
+    private void getTasksByGroupNameAndPriority() {
+        System.out.print("Write group name of task you want to filter by: ");
+        String groupName = scanner.nextLine();
+        System.out.print("Write priority of task you want to filter by: ");
+        Priority priority = Priority.valueOf(scanner.nextLine().toUpperCase());
+
+        List<Task> tasksByGroupNameAndPriority = taskManager.getBy(groupName, priority);
+        if (tasksByGroupNameAndPriority != null) {
+            System.out.println(tasksByGroupNameAndPriority);
+        } else {
+            System.out.println("Failed to load tasks by group name and priority.");
+        }
+    }
+
+    private void getTasksByGroupNameAndDone() {
+        System.out.print("Write group name of task you want to filter by: ");
+        String groupName = scanner.nextLine();
+        System.out.print("Write state of done of task you want to filter by: ");
+        boolean done = Boolean.parseBoolean(scanner.nextLine());
+
+        List<Task> tasksByGroupNameAndDone = taskManager.getBy(groupName, done);
+        if (tasksByGroupNameAndDone != null) {
+            System.out.println(tasksByGroupNameAndDone);
+        } else {
+            System.out.println("Failed to load tasks by group name and state of done.");
+        }
+    }
+
+    private void getTasksByGroupNameAndDate() throws ParseException {
+        System.out.print("Write group name of task you want to filter by: ");
+        String groupName = scanner.nextLine();
+        System.out.print("Write date of task you want to filter by (pattern: yyyy-MM-dd): ");
+        String date = scanner.nextLine();
+
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        Date parsedDate = dateFormat.parse(date);
+
+        List<Task> tasksByGroupNameAndDate = taskManager.getBy(groupName, parsedDate);
+        if (tasksByGroupNameAndDate != null) {
+            System.out.println(tasksByGroupNameAndDate);
+        } else {
+            System.out.println("Failed to load tasks by group name and older than given date.");
+        }
+    }
+
+    private void exit() {
+        taskManager.saveTasksToFile();
+        System.out.println("Exit app. Thank you!");
+        System.exit(0);
+    }
+
+    public static void main(String[] args) throws ParseException {
         System.out.println("Start TodosApplication");
         TodosApplication app = new TodosApplication();
         app.run();

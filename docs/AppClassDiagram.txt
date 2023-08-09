@@ -4,21 +4,22 @@ skin rose
 
 title TODOs app - Class Diagram
 
-class App {
+class TodosApplication {
   -TaskManager taskManager
+  -Scanner scanner
+  + void run()
   + void main()
-  - void displayMenu()
+  - void displayAllTasks()
   - void createTask()
   - void updateTask()
-  - void deteleTask()
-  - void setDoneTask()
-  - void displayTasks()
+  - void deleteTask()
+  - void ...()
 }
 
 enum Priority {
-  low
-  medium
-  high
+  LOW
+  MEDIUM
+  HIGH
 }
 
 class Task{
@@ -44,28 +45,41 @@ class Task{
   +Date getDate()
 }
 
+class TaskGroup{
+    -String name
+    -List<Task> tasks
+    +TaskGroup()
+    +TaskGroup(String name, List<Task> tasks)
+    +void setName(String name)
+    +String getName()
+    +void setTasks(List<Task> tasks)
+    +List<Task> getTasks()
+}
+
 class TaskManager{
   -TaskRepository taskRepository
-  -Map<String, List<Task>> tasksMap
-  +TaskManager() //load tasksMap
-  +void create(Task task, String type)
-  +void update(Task task)
-  +Boolean delete(UUID id)
-  +List<Task> getAll()
-  +void saveTasks()
-  +Boolean setDone(UUID id)
-  +List<Task> getBy(String type)
-  +List<Task> getBy(Priority priority, String type)
-  +List<Task> getBy(Boolean done, String type)
-  +List<Task> getOlderTban(Date date, String type)
-  
+  -List<TaskGroup> taskGroups
+  +TaskManager() //load taskGroups
+  +boolean create(Task task, String groupName)
+  +boolean update(Task task)
+  +boolean delete(UUID id)
+  +List<TaskGroup> getAll()
+  +void saveTasksToFile()
+  +boolean setDone(UUID id)
+  +List<Task> getBy(String groupName)
+  +List<Task> getBy(String groupName, Priority priority)
+  +List<Task> getBy(String groupName, Boolean done)
+  +List<Task> getBy(String groupName, Date olderThan)
+
 }
 
 class TaskRepository{
-  +Map<String,List<Task>> load()
-  +void save(Map<String, List<Task>> task)
+  +List<TaskGroup> load()
+  +void save(Map<String, List<TaskGroup> taskGroups)
 }
 
-App *-- TaskManager: contains
+TodosApplication *-- TaskManager: contains
 TaskManager *-- TaskRepository : contains
+TaskGroup *-- Task : contains
+Priority -- Task: contains
 @enduml

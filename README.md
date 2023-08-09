@@ -33,6 +33,9 @@ When creating a project, you can try creating classes for representing tasks, ma
 mvn compile exec:java
 ```
 
+## Useful links
+* [planttext uml online editor](https://www.planttext.com/)
+
 ## Contributors
 <!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
 <!-- prettier-ignore-start -->
