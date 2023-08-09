@@ -30,7 +30,13 @@ public class TaskManager {
                 }
             }
         }
-        return false;
+
+        System.out.println("Did not find given name of group: creating new group");
+        List<Task> tasks = new ArrayList<>();
+        tasks.add(task);
+        TaskGroup newTaskGroup = new TaskGroup(groupName, tasks);
+        taskGroups.add(newTaskGroup);
+        return true;
     }
 
     public boolean updateTask(Task task) {
