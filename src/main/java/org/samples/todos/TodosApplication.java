@@ -259,23 +259,23 @@ public class TodosApplication {
         System.out.print("Write group name of task you want to filter by: ");
         String groupName = scanner.nextLine();
         System.out.print("Write priority of task you want to filter by: ");
-        Priority priority = Priority.valueOf(scanner.nextLine().toUpperCase());
+        String priority = scanner.nextLine();
 
         // Validation
         if(groupName.isEmpty()){
             System.err.println("Validation error: Group name must not be empty.");
             return;
         }
-        if(priority.toString().isEmpty()){
+        if(priority.isEmpty()){
             System.err.println("Validation error: Priority must not be empty.");
             return;
         }
-        if(!List.of("LOW","MEDIUM","HIGH").contains(priority.toString().toUpperCase())){
+        if(!List.of("LOW","MEDIUM","HIGH").contains(priority.toUpperCase())){
             System.err.println("Validation error: Priority must contains value of LOW, MEDIUM or HIGH.");
             return;
         }
 
-        List<Task> tasksByGroupNameAndPriority = taskManager.getBy(groupName, priority);
+        List<Task> tasksByGroupNameAndPriority = taskManager.getBy(groupName, Priority.valueOf(priority.toUpperCase()));
         if (tasksByGroupNameAndPriority != null) {
             System.out.println(tasksByGroupNameAndPriority);
         } else {
@@ -288,19 +288,19 @@ public class TodosApplication {
         System.out.print("Write group name of task you want to filter by: ");
         String groupName = scanner.nextLine();
         System.out.print("Write state of done of task you want to filter by: ");
-        boolean done = Boolean.parseBoolean(scanner.nextLine());
+        String done = scanner.nextLine();
 
         // Validation
         if(groupName.isEmpty()){
             System.err.println("Validation error: Group name must not be empty.");
             return;
         }
-        if(!List.of(false,true).contains(done)){
+        if(!List.of(false,true).contains(Boolean.parseBoolean(done))){
             System.err.println("Validation error: done must contains value of true or false.");
             return;
         }
 
-        List<Task> tasksByGroupNameAndDone = taskManager.getBy(groupName, done);
+        List<Task> tasksByGroupNameAndDone = taskManager.getBy(groupName, Boolean.parseBoolean(done));
         if (tasksByGroupNameAndDone != null) {
             System.out.println(tasksByGroupNameAndDone);
         } else {
