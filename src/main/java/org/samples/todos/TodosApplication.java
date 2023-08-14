@@ -295,7 +295,7 @@ public class TodosApplication {
             System.err.println("Validation error: Group name must not be empty.");
             return;
         }
-        if(!List.of(false,true).contains(Boolean.parseBoolean(done))){
+        if(!List.of("false","true").contains(done)){
             System.err.println("Validation error: done must contains value of true or false.");
             return;
         }
