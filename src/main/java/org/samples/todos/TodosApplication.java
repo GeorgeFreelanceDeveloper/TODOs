@@ -77,6 +77,8 @@ public class TodosApplication {
     }
 
     private void createTask() {
+
+        // Read input
         System.out.print("Title: ");
         String title = scanner.nextLine();
         System.out.print("Description: ");
@@ -85,6 +87,24 @@ public class TodosApplication {
         String group = scanner.nextLine();
         System.out.print("Priority (LOW, MEDIUM, HIGH): ");
         String priority = scanner.nextLine();
+
+        // Validate
+        if (title.isEmpty()){
+            System.err.println("Validation error: Title must not be empty.");
+            return;
+        }
+        if(description.isEmpty()){
+            System.err.println("Validation error: Description must not be empty.");
+            return;
+        }
+        if(group.isEmpty()){
+            System.err.println("Validation error: Group must not be empty.");
+            return;
+        }
+        if(!List.of("LOW","MEDIUM","HIGH").contains(priority)){
+            System.err.println("Validation error: Priority must contains value of LOW, MEDIUM or HIGH.");
+            return;
+        }
 
         Task task = new Task(UUID.randomUUID(),
                 title,
@@ -102,6 +122,7 @@ public class TodosApplication {
     }
 
     private void updateTask() {
+        // Read input
         System.out.print("ID task for update: ");
         UUID taskId = UUID.fromString(scanner.nextLine());
         System.out.print("New title: ");
@@ -110,6 +131,10 @@ public class TodosApplication {
         String newDescription = scanner.nextLine();
         System.out.print("New priority (LOW, MEDIUM, HIGH): ");
         String newPriority = scanner.nextLine();
+
+
+        // Validation
+        // TODO: Lucka
 
         Task task = new Task(taskId,
                 newTitle,
@@ -127,7 +152,7 @@ public class TodosApplication {
 
     private void deleteTask() {
         System.out.print("Write ID of task for delete: ");
-        UUID deleteTaskId = UUID.fromString(scanner.nextLine());
+        UUID deleteTaskId = UUID.fromString(scanner.nextLine());  //TODO: Lucka Rename to taskId, taskIdString
         boolean result = taskManager.deleteTask(deleteTaskId);
         if (result) {
             System.out.println("Successful delete task");
@@ -138,7 +163,7 @@ public class TodosApplication {
 
     private void setDone() {
         System.out.print("Write ID of task for setting task to done: ");
-        UUID setDoneToTask = UUID.fromString(scanner.nextLine());
+        UUID setDoneToTask = UUID.fromString(scanner.nextLine()); //TODO: Lucka Rename to taskId, taskIdString
         boolean result = taskManager.setDone(setDoneToTask);
         if (result) {
             System.out.println("Successful set done to task");
