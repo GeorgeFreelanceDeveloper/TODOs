@@ -15,13 +15,13 @@ public class TaskRepository {
     private final String taskFileName;
     private final ObjectMapper mapper;
 
-    public TaskRepository(String taskFileName, ObjectMapper mapper) {
+    public TaskRepository(final String taskFileName, final ObjectMapper mapper) {
         this.taskFileName = taskFileName;
         this.mapper = mapper;
     }
 
     public List<TaskGroup> load() {
-        List<TaskGroup> taskGroups =  new ArrayList<>();
+        List<TaskGroup> taskGroups = new ArrayList<>();
 
         try {
             taskGroups = mapper.readValue(Paths.get(taskFileName).toFile(), new TypeReference<>() {
@@ -34,7 +34,7 @@ public class TaskRepository {
         return taskGroups;
     }
 
-    public void save(List<TaskGroup> taskGroups) {
+    public void save(final List<TaskGroup> taskGroups) {
         try {
             mapper.writeValue(new File(taskFileName), taskGroups);
         } catch (IOException e) {

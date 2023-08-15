@@ -15,12 +15,12 @@ public class TaskManager {
     private final TaskRepository taskRepository;
     private final List<TaskGroup> taskGroups;
 
-    public TaskManager(TaskRepository taskRepository) {
+    public TaskManager(final TaskRepository taskRepository) {
         this.taskRepository = taskRepository;
         this.taskGroups = taskRepository.load();
     }
 
-    public boolean createTask(Task task, String groupName) {
+    public boolean createTask(final Task task, final String groupName) {
         for (TaskGroup taskGroup : taskGroups) {
             if (taskGroup.getName().equals(groupName)) {
                 List<Task> tasks = taskGroup.getTasks();
@@ -39,7 +39,7 @@ public class TaskManager {
         return true;
     }
 
-    public boolean updateTask(Task task) {
+    public boolean updateTask(final Task task) {
         for (TaskGroup taskGroup : taskGroups) {
             for (Task existingTask : taskGroup.getTasks()) {
                 if (existingTask.getId().equals(task.getId())) {
@@ -55,7 +55,7 @@ public class TaskManager {
         return false;
     }
 
-    public boolean deleteTask(UUID id) {
+    public boolean deleteTask(final UUID id) {
         boolean deleted = false;
 
         for (TaskGroup taskGroup : taskGroups) {
@@ -74,7 +74,7 @@ public class TaskManager {
         return deleted;
     }
 
-    public boolean setDone(UUID id) {
+    public boolean setDone(final UUID id) {
         for (TaskGroup taskGroup : taskGroups) {
             for (Task task : taskGroup.getTasks()) {
                 if (task.getId().equals(id)) {
@@ -91,7 +91,7 @@ public class TaskManager {
         return new ArrayList<>(taskGroups);
     }
 
-    public List<Task> getBy(String groupName) {
+    public List<Task> getBy(final String groupName) {
         List<Task> tasks = new ArrayList<>();
 
         for (TaskGroup taskGroup : taskGroups) {
@@ -102,7 +102,7 @@ public class TaskManager {
         return tasks;
     }
 
-    public List<Task> getBy(String groupName, Priority priority) {
+    public List<Task> getBy(final String groupName, final Priority priority) {
         List<Task> tasks = new ArrayList<>();
 
         for (TaskGroup taskGroup : taskGroups) {
@@ -117,7 +117,7 @@ public class TaskManager {
         return tasks;
     }
 
-    public List<Task> getBy(String groupName, boolean done) {
+    public List<Task> getBy(final String groupName, final boolean done) {
         List<Task> tasks = new ArrayList<>();
 
         for (TaskGroup taskGroup : taskGroups) {
@@ -132,7 +132,7 @@ public class TaskManager {
         return tasks;
     }
 
-    public List<Task> getBy(String groupName, Date olderThan) {
+    public List<Task> getBy(final String groupName, final Date olderThan) {
         List<Task> tasks = new ArrayList<>();
 
         for (TaskGroup taskGroup : taskGroups) {
