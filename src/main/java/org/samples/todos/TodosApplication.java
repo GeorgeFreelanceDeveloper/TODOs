@@ -16,7 +16,7 @@ import java.util.UUID;
 
 public class TodosApplication {
 
-    private static final String taskFilePath = TodosApplication.class.getClassLoader().getResource("tasks.json")
+    private static final String TASK_FILE_PATH = TodosApplication.class.getClassLoader().getResource("tasks.json")
             .getPath();
     private final TaskManager taskManager;
 
@@ -24,7 +24,7 @@ public class TodosApplication {
 
     public TodosApplication() {
         ObjectMapper objectMapper = new ObjectMapper();
-        TaskRepository taskRepository = new TaskRepository(taskFilePath, objectMapper);
+        TaskRepository taskRepository = new TaskRepository(TASK_FILE_PATH, objectMapper);
         taskManager = new TaskManager(taskRepository);
         scanner = new Scanner(System.in);
     }
