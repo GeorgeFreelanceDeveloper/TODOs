@@ -1,5 +1,5 @@
 package org.samples.todos.model;
 
-public enum Priority{
+public enum Priority {
     LOW, MEDIUM, HIGH
 }

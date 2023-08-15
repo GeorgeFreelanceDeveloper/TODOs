@@ -12,9 +12,11 @@ public class Task {
     private boolean done;
     private Date createDate;
 
-    public Task(){}
-    public Task(final UUID id, final String title, final String description, 
-                final Priority priority, final boolean done, final Date createDate) {
+    public Task() {
+    }
+
+    public Task(final UUID id, final String title, final String description,
+            final Priority priority, final boolean done, final Date createDate) {
         this.id = id;
         this.title = title;
         this.description = description;
@@ -85,10 +87,14 @@ public class Task {
 
     @Override
     public boolean equals(final Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o)
+            return true;
+        if (o == null || getClass() != o.getClass())
+            return false;
         Task task = (Task) o;
-        return done == task.done && Objects.equals(id, task.id) && Objects.equals(title, task.title) && Objects.equals(description, task.description) && priority == task.priority && Objects.equals(createDate, task.createDate);
+        return done == task.done && Objects.equals(id, task.id) && Objects.equals(title, task.title)
+                && Objects.equals(description, task.description) && priority == task.priority
+                && Objects.equals(createDate, task.createDate);
     }
 
     @Override

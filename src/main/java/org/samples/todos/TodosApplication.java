@@ -16,11 +16,11 @@ import java.util.UUID;
 
 public class TodosApplication {
 
-    private static final String taskFilePath = TodosApplication.class.getClassLoader().getResource("tasks.json").getPath();
+    private static final String taskFilePath = TodosApplication.class.getClassLoader().getResource("tasks.json")
+            .getPath();
     private final TaskManager taskManager;
 
     private final Scanner scanner;
-
 
     public TodosApplication() {
         ObjectMapper objectMapper = new ObjectMapper();
@@ -46,7 +46,7 @@ public class TodosApplication {
             System.out.print("Select an option:");
             String choice = scanner.nextLine();
 
-            if (StringUtils.isNumeric(choice)){
+            if (StringUtils.isNumeric(choice)) {
                 switch (Integer.parseInt(choice)) {
                     case 1 -> displayAllTasks();
                     case 2 -> createTask();
@@ -60,8 +60,7 @@ public class TodosApplication {
                     case 10 -> exit();
                     default -> System.out.println("Invalid choice. Select again.");
                 }
-            }
-            else {
+            } else {
                 System.err.println("Validation error: choice must be number like (1-10).");
             }
         }
@@ -92,23 +91,23 @@ public class TodosApplication {
         String priority = scanner.nextLine();
 
         // Validation
-        if (title.isEmpty()){
+        if (title.isEmpty()) {
             System.err.println("Validation error: Title must not be empty.");
             return;
         }
-        if(description.isEmpty()){
+        if (description.isEmpty()) {
             System.err.println("Validation error: Description must not be empty.");
             return;
         }
-        if(group.isEmpty()){
+        if (group.isEmpty()) {
             System.err.println("Validation error: Group must not be empty.");
             return;
         }
-        if(priority.isEmpty()){
+        if (priority.isEmpty()) {
             System.err.println("Validation error: Priority must not be empty.");
             return;
         }
-        if(!List.of("LOW","MEDIUM","HIGH").contains(priority.toUpperCase())){
+        if (!List.of("LOW", "MEDIUM", "HIGH").contains(priority.toUpperCase())) {
             System.err.println("Validation error: Priority must contains value of LOW, MEDIUM or HIGH.");
             return;
         }
@@ -140,32 +139,32 @@ public class TodosApplication {
         String newPriority = scanner.nextLine();
 
         // Validation
-        if (taskId.isEmpty()){
+        if (taskId.isEmpty()) {
             System.err.println("Validation error: ID must not be empty.");
             return;
         }
-        if(newTitle.isEmpty()){
+        if (newTitle.isEmpty()) {
             System.err.println("Validation error: Title must not be empty.");
             return;
         }
-        if(newDescription.isEmpty()){
+        if (newDescription.isEmpty()) {
             System.err.println("Validation error: Description must not be empty.");
             return;
         }
-        if(newPriority.isEmpty()){
+        if (newPriority.isEmpty()) {
             System.err.println("Validation error: Priority must not be empty.");
             return;
         }
-        if(!List.of("LOW","MEDIUM","HIGH").contains(newPriority.toUpperCase())){
+        if (!List.of("LOW", "MEDIUM", "HIGH").contains(newPriority.toUpperCase())) {
             System.err.println("Validation error: Priority must contains value of LOW, MEDIUM or HIGH.");
             return;
         }
 
         try {
             UUID.fromString(taskId);
-        }
-        catch (Exception e){
-            System.err.println("Validation error: Not parsable UUID write correct id of task you want to modify like (c5e128d1-24bf-4a4b-974d-72cbba71f9d3)");
+        } catch (Exception e) {
+            System.err.println(
+                    "Validation error: Not parsable UUID write correct id of task you want to modify like (c5e128d1-24bf-4a4b-974d-72cbba71f9d3)");
             return;
         }
 
@@ -189,15 +188,15 @@ public class TodosApplication {
         String taskId = scanner.nextLine();
 
         // Validation
-        if (taskId.isEmpty()){
+        if (taskId.isEmpty()) {
             System.err.println("Validation error: ID must not be empty.");
             return;
         }
         try {
             UUID.fromString(taskId);
-        }
-        catch (Exception e){
-            System.err.println("Validation error: Not parsable UUID write correct id of task you want to modify like (c5e128d1-24bf-4a4b-974d-72cbba71f9d3)");
+        } catch (Exception e) {
+            System.err.println(
+                    "Validation error: Not parsable UUID write correct id of task you want to modify like (c5e128d1-24bf-4a4b-974d-72cbba71f9d3)");
             return;
         }
 
@@ -215,15 +214,15 @@ public class TodosApplication {
         String taskId = scanner.nextLine();
 
         // Validation
-        if (taskId.isEmpty()){
+        if (taskId.isEmpty()) {
             System.err.println("Validation error: ID must not be empty.");
             return;
         }
         try {
             UUID.fromString(taskId);
-        }
-        catch (Exception e){
-            System.err.println("Validation error: Not parsable UUID write correct id of task you want to modify like (c5e128d1-24bf-4a4b-974d-72cbba71f9d3)");
+        } catch (Exception e) {
+            System.err.println(
+                    "Validation error: Not parsable UUID write correct id of task you want to modify like (c5e128d1-24bf-4a4b-974d-72cbba71f9d3)");
             return;
         }
 
@@ -241,7 +240,7 @@ public class TodosApplication {
         String groupName = scanner.nextLine();
 
         // Validation
-        if(groupName.isEmpty()){
+        if (groupName.isEmpty()) {
             System.err.println("Validation error: Group name must not be empty.");
             return;
         }
@@ -262,15 +261,15 @@ public class TodosApplication {
         String priority = scanner.nextLine();
 
         // Validation
-        if(groupName.isEmpty()){
+        if (groupName.isEmpty()) {
             System.err.println("Validation error: Group name must not be empty.");
             return;
         }
-        if(priority.isEmpty()){
+        if (priority.isEmpty()) {
             System.err.println("Validation error: Priority must not be empty.");
             return;
         }
-        if(!List.of("LOW","MEDIUM","HIGH").contains(priority.toUpperCase())){
+        if (!List.of("LOW", "MEDIUM", "HIGH").contains(priority.toUpperCase())) {
             System.err.println("Validation error: Priority must contains value of LOW, MEDIUM or HIGH.");
             return;
         }
@@ -291,11 +290,11 @@ public class TodosApplication {
         String done = scanner.nextLine();
 
         // Validation
-        if(groupName.isEmpty()){
+        if (groupName.isEmpty()) {
             System.err.println("Validation error: Group name must not be empty.");
             return;
         }
-        if(!List.of("false","true").contains(done)){
+        if (!List.of("false", "true").contains(done)) {
             System.err.println("Validation error: done must contains value of true or false.");
             return;
         }
@@ -320,12 +319,11 @@ public class TodosApplication {
         try {
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
             parsedDate = dateFormat.parse(date);
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             System.err.printf("Validation error: Date is not parsable: %s%n", date);
             return;
         }
-        if(groupName.isEmpty()){
+        if (groupName.isEmpty()) {
             System.err.println("Validation error: Group name must not be empty.");
             return;
         }

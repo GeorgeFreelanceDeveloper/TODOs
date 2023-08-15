@@ -21,7 +21,7 @@ public class TaskRepository {
     }
 
     public List<TaskGroup> load() {
-        List<TaskGroup> taskGroups =  new ArrayList<>();
+        List<TaskGroup> taskGroups = new ArrayList<>();
 
         try {
             taskGroups = mapper.readValue(Paths.get(taskFileName).toFile(), new TypeReference<>() {

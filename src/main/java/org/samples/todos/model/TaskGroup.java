@@ -8,7 +8,8 @@ public class TaskGroup {
     private String name;
     private List<Task> tasks;
 
-    public TaskGroup(){}
+    public TaskGroup() {
+    }
 
     public TaskGroup(final String name, final List<Task> tasks) {
         this.name = name;
@@ -33,8 +34,10 @@ public class TaskGroup {
 
     @Override
     public boolean equals(final Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o)
+            return true;
+        if (o == null || getClass() != o.getClass())
+            return false;
         TaskGroup taskGroup = (TaskGroup) o;
         return Objects.equals(name, taskGroup.name) && Objects.equals(tasks, taskGroup.tasks);
     }
