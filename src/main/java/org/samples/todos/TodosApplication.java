@@ -344,7 +344,7 @@ public class TodosApplication {
         System.exit(0);
     }
 
-    public static void main(String[] args) {
+    public static void main(final String[] args) {
         System.out.println("Start TodosApplication");
         TodosApplication app = new TodosApplication();
         app.run();

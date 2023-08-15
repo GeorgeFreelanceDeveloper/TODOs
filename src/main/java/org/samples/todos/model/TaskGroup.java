@@ -10,7 +10,7 @@ public class TaskGroup {
 
     public TaskGroup(){}
 
-    public TaskGroup(String name, List<Task> tasks) {
+    public TaskGroup(final String name, final List<Task> tasks) {
         this.name = name;
         this.tasks = tasks;
     }
@@ -19,7 +19,7 @@ public class TaskGroup {
         return name;
     }
 
-    public void setName(String name) {
+    public void setName(final String name) {
         this.name = name;
     }
 
@@ -27,12 +27,12 @@ public class TaskGroup {
         return tasks;
     }
 
-    public void setTasks(List<Task> tasks) {
+    public void setTasks(final List<Task> tasks) {
         this.tasks = tasks;
     }
 
     @Override
-    public boolean equals(Object o) {
+    public boolean equals(final Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         TaskGroup taskGroup = (TaskGroup) o;
