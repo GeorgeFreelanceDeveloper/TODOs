@@ -12,8 +12,11 @@ public class Task {
     private boolean done;
     private Date createDate;
 
-    public Task(){}
-    public Task(UUID id, String title, String description, Priority priority, boolean done, Date createDate) {
+    public Task() {
+    }
+
+    public Task(final UUID id, final String title, final String description,
+            final Priority priority, final boolean done, final Date createDate) {
         this.id = id;
         this.title = title;
         this.description = description;
@@ -46,27 +49,27 @@ public class Task {
         return createDate;
     }
 
-    public void setId(UUID id) {
+    public void setId(final UUID id) {
         this.id = id;
     }
 
-    public void setTitle(String title) {
+    public void setTitle(final String title) {
         this.title = title;
     }
 
-    public void setDescription(String description) {
+    public void setDescription(final String description) {
         this.description = description;
     }
 
-    public void setPriority(Priority priority) {
+    public void setPriority(final Priority priority) {
         this.priority = priority;
     }
 
-    public void setDone(boolean done) {
+    public void setDone(final boolean done) {
         this.done = done;
     }
 
-    public void setCreateDate(Date createDate) {
+    public void setCreateDate(final Date createDate) {
         this.createDate = createDate;
     }
 
@@ -83,11 +86,15 @@ public class Task {
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+    public boolean equals(final Object o) {
+        if (this == o)
+            return true;
+        if (o == null || getClass() != o.getClass())
+            return false;
         Task task = (Task) o;
-        return done == task.done && Objects.equals(id, task.id) && Objects.equals(title, task.title) && Objects.equals(description, task.description) && priority == task.priority && Objects.equals(createDate, task.createDate);
+        return done == task.done && Objects.equals(id, task.id) && Objects.equals(title, task.title)
+                && Objects.equals(description, task.description) && priority == task.priority
+                && Objects.equals(createDate, task.createDate);
     }
 
     @Override

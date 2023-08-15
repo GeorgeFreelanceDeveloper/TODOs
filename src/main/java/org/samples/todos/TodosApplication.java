@@ -1,13 +1,13 @@
 package org.samples.todos;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.apache.commons.lang3.StringUtils;
 import org.samples.todos.model.Priority;
 import org.samples.todos.model.Task;
 import org.samples.todos.model.TaskGroup;
 import org.samples.todos.repository.TaskRepository;
 import org.samples.todos.service.TaskManager;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -16,20 +16,20 @@ import java.util.UUID;
 
 public class TodosApplication {
 
-    private static final String taskFilePath = TodosApplication.class.getClassLoader().getResource("tasks.json").getPath();
+    private static final String TASK_FILE_PATH = TodosApplication.class.getClassLoader().getResource("tasks.json")
+            .getPath();
     private final TaskManager taskManager;
 
     private final Scanner scanner;
 
-
     public TodosApplication() {
         ObjectMapper objectMapper = new ObjectMapper();
-        TaskRepository taskRepository = new TaskRepository(taskFilePath, objectMapper);
+        TaskRepository taskRepository = new TaskRepository(TASK_FILE_PATH, objectMapper);
         taskManager = new TaskManager(taskRepository);
         scanner = new Scanner(System.in);
     }
 
-    public void run() throws ParseException {
+    public void run() {
         while (true) {
             System.out.println("------ TODOS MENU ------");
             System.out.println("1. List of all tasks");
@@ -44,21 +44,24 @@ public class TodosApplication {
             System.out.println("10. Exit");
 
             System.out.print("Select an option:");
-            int choice = scanner.nextInt();
-            scanner.nextLine();  // To consume the rest of the line after reading the number
+            String choice = scanner.nextLine();
 
-            switch (choice) {
-                case 1 -> displayAllTasks();
-                case 2 -> createTask();
-                case 3 -> updateTask();
-                case 4 -> deleteTask();
-                case 5 -> setDone();
-                case 6 -> getTasksByGroupName();
-                case 7 -> getTasksByGroupNameAndPriority();
-                case 8 -> getTasksByGroupNameAndDone();
-                case 9 -> getTasksByGroupNameAndDate();
-                case 10 -> exit();
-                default -> System.out.println("Invalid choice. Select again.");
+            if (StringUtils.isNumeric(choice)) {
+                switch (Integer.parseInt(choice)) {
+                    case 1 -> displayAllTasks();
+                    case 2 -> createTask();
+                    case 3 -> updateTask();
+                    case 4 -> deleteTask();
+                    case 5 -> setDone();
+                    case 6 -> getTasksByGroupName();
+                    case 7 -> getTasksByGroupNameAndPriority();
+                    case 8 -> getTasksByGroupNameAndDone();
+                    case 9 -> getTasksByGroupNameAndDate();
+                    case 10 -> exit();
+                    default -> System.out.println("Invalid choice. Select again.");
+                }
+            } else {
+                System.err.println("Validation error: choice must be number like (1-10).");
             }
         }
     }
@@ -68,7 +71,7 @@ public class TodosApplication {
 
         for (var taskGroup : taskGroups) {
             System.out.println("-----");
-            System.out.println(String.format("Task group: %s", taskGroup.getName()));
+            System.out.printf("Task group: %s%n", taskGroup.getName());
             System.out.println("-----");
             for (var task : taskGroup.getTasks()) {
                 System.out.println(task);
@@ -77,6 +80,7 @@ public class TodosApplication {
     }
 
     private void createTask() {
+        // Read input
         System.out.print("Title: ");
         String title = scanner.nextLine();
         System.out.print("Description: ");
@@ -85,6 +89,28 @@ public class TodosApplication {
         String group = scanner.nextLine();
         System.out.print("Priority (LOW, MEDIUM, HIGH): ");
         String priority = scanner.nextLine();
+
+        // Validation
+        if (title.isEmpty()) {
+            System.err.println("Validation error: Title must not be empty.");
+            return;
+        }
+        if (description.isEmpty()) {
+            System.err.println("Validation error: Description must not be empty.");
+            return;
+        }
+        if (group.isEmpty()) {
+            System.err.println("Validation error: Group must not be empty.");
+            return;
+        }
+        if (priority.isEmpty()) {
+            System.err.println("Validation error: Priority must not be empty.");
+            return;
+        }
+        if (!List.of("LOW", "MEDIUM", "HIGH").contains(priority.toUpperCase())) {
+            System.err.println("Validation error: Priority must contains value of LOW, MEDIUM or HIGH.");
+            return;
+        }
 
         Task task = new Task(UUID.randomUUID(),
                 title,
@@ -102,8 +128,9 @@ public class TodosApplication {
     }
 
     private void updateTask() {
+        // Read input
         System.out.print("ID task for update: ");
-        UUID taskId = UUID.fromString(scanner.nextLine());
+        String taskId = scanner.nextLine();
         System.out.print("New title: ");
         String newTitle = scanner.nextLine();
         System.out.print("New description: ");
@@ -111,7 +138,37 @@ public class TodosApplication {
         System.out.print("New priority (LOW, MEDIUM, HIGH): ");
         String newPriority = scanner.nextLine();
 
-        Task task = new Task(taskId,
+        // Validation
+        if (taskId.isEmpty()) {
+            System.err.println("Validation error: ID must not be empty.");
+            return;
+        }
+        if (newTitle.isEmpty()) {
+            System.err.println("Validation error: Title must not be empty.");
+            return;
+        }
+        if (newDescription.isEmpty()) {
+            System.err.println("Validation error: Description must not be empty.");
+            return;
+        }
+        if (newPriority.isEmpty()) {
+            System.err.println("Validation error: Priority must not be empty.");
+            return;
+        }
+        if (!List.of("LOW", "MEDIUM", "HIGH").contains(newPriority.toUpperCase())) {
+            System.err.println("Validation error: Priority must contains value of LOW, MEDIUM or HIGH.");
+            return;
+        }
+
+        try {
+            UUID.fromString(taskId);
+        } catch (Exception e) {
+            System.err.println(
+                    "Validation error: Not parsable UUID write correct id of task you want to modify like (c5e128d1-24bf-4a4b-974d-72cbba71f9d3)");
+            return;
+        }
+
+        Task task = new Task(UUID.fromString(taskId),
                 newTitle,
                 newDescription,
                 Priority.valueOf(newPriority.toUpperCase()),
@@ -126,9 +183,24 @@ public class TodosApplication {
     }
 
     private void deleteTask() {
+        // Read input
         System.out.print("Write ID of task for delete: ");
-        UUID deleteTaskId = UUID.fromString(scanner.nextLine());
-        boolean result = taskManager.deleteTask(deleteTaskId);
+        String taskId = scanner.nextLine();
+
+        // Validation
+        if (taskId.isEmpty()) {
+            System.err.println("Validation error: ID must not be empty.");
+            return;
+        }
+        try {
+            UUID.fromString(taskId);
+        } catch (Exception e) {
+            System.err.println(
+                    "Validation error: Not parsable UUID write correct id of task you want to modify like (c5e128d1-24bf-4a4b-974d-72cbba71f9d3)");
+            return;
+        }
+
+        boolean result = taskManager.deleteTask(UUID.fromString(taskId));
         if (result) {
             System.out.println("Successful delete task");
         } else {
@@ -137,9 +209,24 @@ public class TodosApplication {
     }
 
     private void setDone() {
+        // Read input
         System.out.print("Write ID of task for setting task to done: ");
-        UUID setDoneToTask = UUID.fromString(scanner.nextLine());
-        boolean result = taskManager.setDone(setDoneToTask);
+        String taskId = scanner.nextLine();
+
+        // Validation
+        if (taskId.isEmpty()) {
+            System.err.println("Validation error: ID must not be empty.");
+            return;
+        }
+        try {
+            UUID.fromString(taskId);
+        } catch (Exception e) {
+            System.err.println(
+                    "Validation error: Not parsable UUID write correct id of task you want to modify like (c5e128d1-24bf-4a4b-974d-72cbba71f9d3)");
+            return;
+        }
+
+        boolean result = taskManager.setDone(UUID.fromString(taskId));
         if (result) {
             System.out.println("Successful set done to task");
         } else {
@@ -148,8 +235,16 @@ public class TodosApplication {
     }
 
     private void getTasksByGroupName() {
+        // Read input
         System.out.print("Write group name of task you want to filter by: ");
         String groupName = scanner.nextLine();
+
+        // Validation
+        if (groupName.isEmpty()) {
+            System.err.println("Validation error: Group name must not be empty.");
+            return;
+        }
+
         List<Task> tasksByGroupName = taskManager.getBy(groupName);
         if (tasksByGroupName != null) {
             System.out.println(tasksByGroupName);
@@ -159,12 +254,27 @@ public class TodosApplication {
     }
 
     private void getTasksByGroupNameAndPriority() {
+        // Read input
         System.out.print("Write group name of task you want to filter by: ");
         String groupName = scanner.nextLine();
         System.out.print("Write priority of task you want to filter by: ");
-        Priority priority = Priority.valueOf(scanner.nextLine().toUpperCase());
+        String priority = scanner.nextLine();
 
-        List<Task> tasksByGroupNameAndPriority = taskManager.getBy(groupName, priority);
+        // Validation
+        if (groupName.isEmpty()) {
+            System.err.println("Validation error: Group name must not be empty.");
+            return;
+        }
+        if (priority.isEmpty()) {
+            System.err.println("Validation error: Priority must not be empty.");
+            return;
+        }
+        if (!List.of("LOW", "MEDIUM", "HIGH").contains(priority.toUpperCase())) {
+            System.err.println("Validation error: Priority must contains value of LOW, MEDIUM or HIGH.");
+            return;
+        }
+
+        List<Task> tasksByGroupNameAndPriority = taskManager.getBy(groupName, Priority.valueOf(priority.toUpperCase()));
         if (tasksByGroupNameAndPriority != null) {
             System.out.println(tasksByGroupNameAndPriority);
         } else {
@@ -173,12 +283,23 @@ public class TodosApplication {
     }
 
     private void getTasksByGroupNameAndDone() {
+        // Read input
         System.out.print("Write group name of task you want to filter by: ");
         String groupName = scanner.nextLine();
         System.out.print("Write state of done of task you want to filter by: ");
-        boolean done = Boolean.parseBoolean(scanner.nextLine());
+        String done = scanner.nextLine();
 
-        List<Task> tasksByGroupNameAndDone = taskManager.getBy(groupName, done);
+        // Validation
+        if (groupName.isEmpty()) {
+            System.err.println("Validation error: Group name must not be empty.");
+            return;
+        }
+        if (!List.of("false", "true").contains(done)) {
+            System.err.println("Validation error: done must contains value of true or false.");
+            return;
+        }
+
+        List<Task> tasksByGroupNameAndDone = taskManager.getBy(groupName, Boolean.parseBoolean(done));
         if (tasksByGroupNameAndDone != null) {
             System.out.println(tasksByGroupNameAndDone);
         } else {
@@ -186,14 +307,26 @@ public class TodosApplication {
         }
     }
 
-    private void getTasksByGroupNameAndDate() throws ParseException {
+    private void getTasksByGroupNameAndDate() {
+        // Read input
         System.out.print("Write group name of task you want to filter by: ");
         String groupName = scanner.nextLine();
         System.out.print("Write date of task you want to filter by (pattern: yyyy-MM-dd): ");
         String date = scanner.nextLine();
 
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        Date parsedDate = dateFormat.parse(date);
+        // Validation
+        Date parsedDate;
+        try {
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            parsedDate = dateFormat.parse(date);
+        } catch (Exception e) {
+            System.err.printf("Validation error: Date is not parsable: %s%n", date);
+            return;
+        }
+        if (groupName.isEmpty()) {
+            System.err.println("Validation error: Group name must not be empty.");
+            return;
+        }
 
         List<Task> tasksByGroupNameAndDate = taskManager.getBy(groupName, parsedDate);
         if (tasksByGroupNameAndDate != null) {
@@ -209,7 +342,7 @@ public class TodosApplication {
         System.exit(0);
     }
 
-    public static void main(String[] args) throws ParseException {
+    public static void main(final String[] args) {
         System.out.println("Start TodosApplication");
         TodosApplication app = new TodosApplication();
         app.run();
