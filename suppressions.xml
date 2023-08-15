@@ -4,4 +4,6 @@
     <suppress checks="LineLengthCheck" files=""/>
     <suppress checks="JavadocVariableCheck" files=""/>
     <suppress checks="MissingJavadocMethodCheck" files=""/>
+    <suppress checks="HiddenField" files="" />
+    <suppress checks="DesignForExtension" files="" />
 </suppressions>
