@@ -70,7 +70,7 @@ public class TaskManagerTest extends TestCase {
     }
 
     public void testSetDone() {
-        UUID taskId = UUID.fromString("c5e128d1-24bf-4a4b-974d-72cbba71f9d3");
+        UUID taskId = UUID.fromString("f327f935-89c9-43b2-9f18-87ac967035a6");
 
         taskManager.setDone(taskId);
         List<TaskGroup> tasks = taskManager.getAll();
@@ -78,7 +78,7 @@ public class TaskManagerTest extends TestCase {
         Task task = tasks
                 .stream()
                 .flatMap(taskGroup -> taskGroup.getTasks().stream())
-                .filter(x-> x.getId().equals(taskId))
+                .filter(x -> x.getId().equals(taskId))
                 .findFirst().get();
 
         assertEquals(taskId, task.getId());
@@ -86,7 +86,7 @@ public class TaskManagerTest extends TestCase {
     }
 
     public void testGetAll() throws ParseException {
-        assertEquals(createSampleTasks(),taskManager.getAll());
+        assertEquals(createSampleTasks(), taskManager.getAll());
     }
 
     public void testGetByGroupName() throws ParseException {
