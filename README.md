@@ -5,7 +5,6 @@
 
 [![Build Status](https://img.shields.io/badge/java-17-green)](https://www.java.com/en/)
 [![Build Status](https://img.shields.io/badge/kotlin-1.9.20-blue)](https://kotlinlang.org/)
-
 ![contributions welcome](https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat)
 
 An application that allows users to create and manage a to-do list.
@@ -32,6 +31,7 @@ When creating a project, you can try creating classes for representing tasks, ma
 
 ## How to run
 ```bash
+cd java
 mvn compile exec:java
 ```
 
