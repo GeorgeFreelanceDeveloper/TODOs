@@ -3,7 +3,9 @@
 [![All Contributors](https://img.shields.io/badge/all_contributors-2-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
-[![Build Status](https://img.shields.io/badge/java-17-blue)](https://www.python.org/downloads/)
+[![Build Status](https://img.shields.io/badge/java-17-green)](https://www.java.com/en/)
+[![Build Status](https://img.shields.io/badge/kotlin-1.9.20-blue)](https://kotlinlang.org/)
+
 ![contributions welcome](https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat)
 
 An application that allows users to create and manage a to-do list.
