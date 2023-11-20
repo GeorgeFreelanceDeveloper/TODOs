@@ -12,7 +12,7 @@ import kotlin.system.exitProcess
 
 
 class TodosApplication {
-    val TASK_FILE_PATH = "task.json"
+    val TASK_FILE_PATH = "kotlin/src/main/resources/tasks.json"
 
     val taskManager: TaskManager
     val scanner: Scanner
